@@ -1,0 +1,13 @@
+---syntax---
+pop{reg}({value})
+---output---
+pop {reg}
+{value}
+---
+
+---syntax---
+@section {section} at {org}
+---output---
+@set.{section}
+org {org}
+---

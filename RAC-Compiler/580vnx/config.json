@@ -1,0 +1,7 @@
+{
+  "overflow_initial_sp": 59872,
+  "disassembly_file": "disas.txt",
+  "gadgets_file": "gadgets.txt",
+  "labels_file": "labels.txt",
+  "extensions_file": "extensions.txt"
+}
