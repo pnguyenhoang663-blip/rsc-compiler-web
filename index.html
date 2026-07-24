@@ -1073,6 +1073,13 @@ body {
       <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
     </button>
     <div class="divider"></div>
+    <button class="tool-btn" id="btnSaveProject" title="Luu du an">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 9 12 15 7 9"/></svg>
+    </button>
+    <button class="tool-btn" id="btnOpenProject" title="Mo du an">
+      <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+    </button>
+    <div class="divider"></div>
     <button class="tool-btn" id="btnSettings" title="Cài đặt">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
@@ -1155,6 +1162,14 @@ body {
 
 <div class="content-area">
   <div class="panel active" id="panelInput">
+    <div class="editor-tabs" id="editorTabs"></div>
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-icon">
+        <svg viewBox="0 0 64 64" width="48" height="48"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="welcome-text" id="welcomeText">Chào mừng đến với Compiler</div>
+      <div class="welcome-actions" id="welcomeActions"></div>
+    </div>
     <div class="panel-body">
       <div class="line-numbers" id="lineNumbers"></div>
       <div class="editor-wrap">
@@ -1226,6 +1241,166 @@ const outputArea = document.getElementById('outputArea');
 const dispMode = document.getElementById('dispMode');
 const editorHighlight = document.getElementById('editorHighlight');
 const API = location.origin || 'http://127.0.0.1:5000';
+
+// === Multi-tab ===
+let tabs = [{ id: 1, name: 'project.asm', code: '' }];
+let activeTab = 0;
+let tabIdCounter = 2;
+const editorTabs = document.getElementById('editorTabs');
+const welcomeScreen = document.getElementById('welcomeScreen');
+const welcomeText = document.getElementById('welcomeText');
+const welcomeActions = document.getElementById('welcomeActions');
+const SAVE_KEY = 'rsc_editor_code';
+
+function renderTabs() {
+  editorTabs.innerHTML = '';
+  tabs.forEach((t, i) => {
+    const d = document.createElement('div');
+    d.className = 'editor-tab' + (i === activeTab ? ' active' : '');
+    d.textContent = t.name;
+    const x = document.createElement('span');
+    x.className = 'tab-close';
+    x.textContent = '\u00d7';
+    x.addEventListener('click', e => { e.stopPropagation(); closeTab(i); });
+    d.appendChild(x);
+    d.addEventListener('click', () => switchEditorTab(i));
+    editorTabs.appendChild(d);
+  });
+  const add = document.createElement('div');
+  add.className = 'editor-tab-add';
+  add.textContent = '+';
+  add.addEventListener('click', () => {
+    tabs.push({ id: tabIdCounter++, name: 'project.asm', code: '' });
+    switchEditorTab(tabs.length - 1);
+  });
+  editorTabs.appendChild(add);
+}
+
+function switchEditorTab(i) {
+  tabs[activeTab].code = getCode();
+  activeTab = i;
+  codeEditor.value = tabs[i].code;
+  updateLineNumbers();
+  updateHighlight();
+  renderTabs();
+  saveToStorage();
+  showEditor();
+}
+
+function closeTab(i) {
+  if (tabs.length <= 1) return;
+  tabs.splice(i, 1);
+  if (activeTab >= tabs.length) activeTab = tabs.length - 1;
+  codeEditor.value = tabs[activeTab].code;
+  updateLineNumbers();
+  updateHighlight();
+  renderTabs();
+}
+
+function showEditor() {
+  welcomeScreen.classList.remove('show');
+  editorTabs.style.display = 'flex';
+  document.querySelector('.panel-body').style.display = 'flex';
+}
+
+function showWelcome() {
+  editorTabs.style.display = 'none';
+  document.querySelector('.panel-body').style.display = 'none';
+  welcomeScreen.classList.add('show');
+  const saved = localStorage.getItem('rsc_tabs_data');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (parsed && parsed.length > 0) {
+      welcomeText.textContent = 'Chào mừng đến với Compiler';
+      welcomeActions.innerHTML = '<button class="welcome-btn" id="welcomeOpen"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> M? d? án ?ã l?u</button>';
+      document.getElementById('welcomeOpen').addEventListener('click', () => document.getElementById('btnOpenProject').click());
+      return;
+    }
+  }
+  welcomeText.textContent = 'Chào mừng đến với Compiler';
+  welcomeActions.innerHTML = '<button class="welcome-btn" id="welcomeNew"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Thêm d? án m?i</button>';
+  document.getElementById('welcomeNew').addEventListener('click', () => {
+    tabs = [{ id: 1, name: 'project.asm', code: '' }];
+    activeTab = 0;
+    codeEditor.value = '';
+    renderTabs();
+    showEditor();
+    updateLineNumbers();
+    updateHighlight();
+    saveToStorage();
+  });
+}
+
+function checkTabs() {
+  const saved = localStorage.getItem('rsc_tabs_data');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.length > 0) {
+        tabs = parsed.map((t, i) => ({ id: i + 1, name: t.name, code: t.code }));
+        activeTab = 0;
+        codeEditor.value = tabs[0].code;
+        renderTabs();
+        showEditor();
+        updateLineNumbers();
+        updateHighlight();
+        return;
+      }
+    } catch(e) {}
+  }
+  showWelcome();
+}
+
+// Override saveToStorage
+saveToStorage = function() {
+  if (typeof autoSaveEnabled !== 'undefined' && !autoSaveEnabled) return;
+  tabs[activeTab].code = getCode();
+  localStorage.setItem(SAVE_KEY, getCode());
+  localStorage.setItem('rsc_tabs_data', JSON.stringify(tabs.map(t => ({ name: t.name, code: t.code }))));
+  document.getElementById('saveIndicator').textContent = '?ã l?u';
+};
+
+// Project buttons
+document.getElementById('btnSaveProject').addEventListener('click', () => {
+  if (tabs.length === 0) return;
+  const name = prompt('Tên d? án:', tabs[activeTab].name);
+  if (name && name.trim()) {
+    tabs[activeTab].name = name.trim();
+    renderTabs();
+    saveToStorage();
+  }
+});
+
+document.getElementById('btnOpenProject').addEventListener('click', () => {
+  const saved = localStorage.getItem('rsc_tabs_data');
+  if (!saved) { statusMessage.textContent = 'Không có d? án'; return; }
+  const projects = JSON.parse(saved);
+  if (!projects || projects.length === 0) { statusMessage.textContent = 'Không có d? án'; return; }
+  welcomeScreen.classList.add('show');
+  editorTabs.style.display = 'none';
+  document.querySelector('.panel-body').style.display = 'none';
+  welcomeText.textContent = 'Ch?n d? án:';
+  welcomeActions.innerHTML = projects.map((p, i) =>
+    '<button class="welcome-btn" data-idx="' + i + '">' + p.name + '</button>'
+  ).join('') + '<button class="welcome-btn" id="welcomeBack" style="color:var(--text2);">H?y</button>';
+  welcomeActions.querySelectorAll('[data-idx]').forEach(b => {
+    b.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.idx);
+      tabs = projects.map((t, i) => ({ id: i + 1, name: t.name, code: t.code }));
+      activeTab = idx;
+      codeEditor.value = tabs[activeTab].code;
+      renderTabs();
+      showEditor();
+      updateLineNumbers();
+      updateHighlight();
+      statusMessage.textContent = '?ã m? ' + tabs[activeTab].name;
+    });
+  });
+  document.getElementById('welcomeBack').addEventListener('click', () => {
+    if (tabs.length > 0) { showEditor(); }
+    else { showWelcome(); }
+  });
+});
 
 let history = [];
 let historyIndex = -1;
@@ -1953,9 +2128,7 @@ async function compileCode() {
 
 // === Init ===
 loadSettings();
-loadFromStorage();
-updateLineNumbers();
-updateHighlight();
+checkTabs();
 </script>
 </body>
 </html>
