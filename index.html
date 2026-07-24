@@ -1064,27 +1064,6 @@ body {
 </head>
 <body>
 
-<div class="top-nav">
-  <div class="nav-left">
-    <span class="nav-brand" id="btnHome">RSC Studio</span>
-    <span class="nav-sep">|</span>
-    <button class="nav-tool active" data-tool="compiler">
-      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Compiler
-    </button>
-    <button class="nav-tool" data-tool="pixel">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-      Pixel Tool
-    </button>
-  </div>
-  <div class="nav-right">
-    <span id="navStatus">S?n sàng</span>
-  </div>
-</div>
-
-<!-- Compiler Tool -->
-<div class="tool-view" id="toolCompiler">
-
 <div class="toolbar">
   <div class="toolbar-left">
     <button class="tool-btn" id="btnLoad" title="Load file .asm">
@@ -1094,23 +1073,12 @@ body {
       <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
     </button>
     <div class="divider"></div>
-    <button class="tool-btn" id="btnSaveProject" title="Luu du an">
-      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 9 12 15 7 9"/></svg>
-    </button>
-    <button class="tool-btn" id="btnOpenProject" title="Mo danh sach du an">
-      <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-    </button>
-    <div class="divider"></div>
-    <button class="tool-btn" id="btnSettings" title="Cài d?t">
+    <button class="tool-btn" id="btnSettings" title="Cài đặt">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
   </div>
   <div class="toolbar-right">
-    <span style="font-size:12px;color:#5c5f66;">Compiler v1.0</span>
-  </div>
-</div>
-  <div class="toolbar-right">
-    <span style="font-size:12px;color:#5c5f66;">ASM Editor v1.0</span>
+    <span style="font-size:12px;color:#5c5f66;">RSC Compiler v1.0</span>
   </div>
 </div>
 
@@ -1182,32 +1150,12 @@ body {
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       Sao chép
     </button>
-
   </div>
 </div>
 
 <div class="content-area">
   <div class="panel active" id="panelInput">
-    <div class="split-header">
-      <span class="split-label">INPUT</span>
-      <div class="split-actions">
-        <button class="split-btn split-clear" title="Xóa">
-          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-        <button class="split-btn split-copy" title="Sao chép">
-          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
-    </div>
-  <div class="editor-tabs" id="editorTabs"></div>
-  <div class="welcome-screen" id="welcomeScreen">
-    <div class="welcome-icon">
-      <svg viewBox="0 0 24 24" width="48" height="48"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-    </div>
-    <div class="welcome-text" id="welcomeText">Chào mừng đến với Compiler</div>
-    <div class="welcome-actions" id="welcomeActions"></div>
-  </div>
-  <div class="panel-body">
+    <div class="panel-body">
       <div class="line-numbers" id="lineNumbers"></div>
       <div class="editor-wrap">
         <pre class="editor-highlight" id="editorHighlight"><code id="highlightCode"></code></pre>
@@ -1217,39 +1165,16 @@ body {
   </div>
 
   <div class="panel" id="panelOutput">
-    <div class="split-header">
-      <span class="split-label">OUTPUT</span>
-      <div class="split-actions">
-        <button class="split-btn split-clear-out" title="Xóa">
-          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-        <button class="split-btn split-copy-out" title="Sao chép">
-          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
-    </div>
     <div class="panel-body">
       <div class="output-area" id="outputArea"></div>
     </div>
   </div>
 </div>
 
-</div><!-- end toolCompiler -->
-
-<div class="tool-view" id="toolPixel">
-  <div class="placeholder-content">
-    <div class="placeholder-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-    </div>
-    <h2>Pixel Tool</h2>
-    <p>?ang phát tri?n...</p>
-  </div>
-</div>
-
 <div class="bottom-bar">
   <span id="statusMessage">Sẵn sàng</span>
   <span id="saveIndicator" style="margin-left:12px;font-size:11px;color:#5c5f66;"></span>
-  <span style="margin-left:auto;color:#373a40;">Compiler được tạo bởi luongvantam</span>
+  <span style="margin-left:auto;color:#373a40;">RSC Compiler</span>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -1288,7 +1213,7 @@ body {
       <button class="modal-close" id="historyClose">&times;</button>
     </div>
     <div class="modal-body" id="historyBody">
-      <div style="color:var(--text2);text-align:center;padding:20px;">Chua co lich su</div>
+      <div style="color:var(--text2);text-align:center;padding:20px;">Chưa có lịch sử</div>
     </div>
   </div>
 </div>
@@ -1299,156 +1224,6 @@ const lineNumbers = document.getElementById('lineNumbers');
 const statusMessage = document.getElementById('statusMessage');
 const outputArea = document.getElementById('outputArea');
 const dispMode = document.getElementById('dispMode');
-
-// === Tool Switching ===
-function switchTool(name) {
-  document.querySelectorAll('.tool-view').forEach(v => {
-    v.classList.remove('active');
-    v.style.display = '';
-  });
-  const el = document.getElementById('tool' + name.charAt(0).toUpperCase() + name.slice(1));
-  if (el) {
-    el.classList.add('active');
-    el.style.display = 'flex';
-  }
-  document.querySelectorAll('.nav-tool').forEach(t => t.classList.remove('active'));
-  const btn = document.querySelector('.nav-tool[data-tool="' + name + '"]');
-  if (btn) btn.classList.add('active');
-}
-
-document.querySelectorAll('.nav-tool').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.classList.contains('active')) return;
-    switchTool(btn.dataset.tool);
-  });
-});
-
-// Home button = switch to compiler
-document.getElementById('btnHome').addEventListener('click', () => switchTool('compiler'));
-
-// Default: show compiler
-document.querySelector('.nav-tool[data-tool="compiler"]').classList.add('active');
-document.getElementById('toolCompiler').classList.add('active');
-document.getElementById('toolCompiler').style.display = 'flex';
-
-// === Multi-tab Editor ===
-let tabs = [{ id: 1, name: 'untitled.asm', code: '' }];
-let activeTab = 0;
-let tabIdCounter = 2;
-const editorTabs = document.getElementById('editorTabs');
-
-function renderTabs() {
-  editorTabs.innerHTML = '';
-  tabs.forEach((tab, i) => {
-    const div = document.createElement('div');
-    div.className = 'editor-tab' + (i === activeTab ? ' active' : '');
-    div.textContent = tab.name;
-    const close = document.createElement('span');
-    close.className = 'tab-close';
-    close.textContent = '\u00d7';
-    close.addEventListener('click', (e) => { e.stopPropagation(); closeTab(i); });
-    div.appendChild(close);
-    div.addEventListener('click', () => switchEditorTab(i));
-    editorTabs.appendChild(div);
-  });
-  const addBtn = document.createElement('div');
-  addBtn.className = 'editor-tab-add';
-  addBtn.textContent = '+';
-  addBtn.title = 'Thêm tab mới';
-  addBtn.addEventListener('click', () => {
-    tabs.push({ id: tabIdCounter++, name: 'untitled.asm', code: '' });
-    switchEditorTab(tabs.length - 1);
-  });
-  editorTabs.appendChild(addBtn);
-}
-
-function switchEditorTab(i) {
-  tabs[activeTab].code = getCode();
-  activeTab = i;
-  codeEditor.value = tabs[i].code;
-  updateLineNumbers();
-  updateHighlight();
-  renderTabs();
-  saveToStorage();
-}
-
-function closeTab(i) {
-  if (tabs.length <= 1) return;
-  tabs.splice(i, 1);
-  if (activeTab >= tabs.length) activeTab = tabs.length - 1;
-  codeEditor.value = tabs[activeTab].code;
-  updateLineNumbers();
-  updateHighlight();
-  renderTabs();
-}
-
-// Override saveToStorage to also save tabs
-const _origSaveToStorage = saveToStorage || function(){};
-saveToStorage = function() {
-  tabs[activeTab].code = getCode();
-  localStorage.setItem(SAVE_KEY, getCode());
-  localStorage.setItem('rsc_tabs', JSON.stringify(tabs.map(t => ({ name: t.name, code: t.code }))));
-  localStorage.setItem('rsc_activeTab', activeTab);
-  document.getElementById('saveIndicator').textContent = 'Đã lưu';
-};
-
-// Load tabs from storage
-function loadTabs() {
-  const wel = document.getElementById('welcomeScreen');
-  const welText = document.getElementById('welcomeText');
-  const welActions = document.getElementById('welcomeActions');
-  const editorBody = document.querySelector('.panel-body');
-  const editorTabs = document.getElementById('editorTabs');
-
-  try {
-    const saved = localStorage.getItem('rsc_tabs');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.length > 0) {
-        tabs = parsed.map((t, i) => ({ id: i + 1, name: t.name, code: t.code }));
-        activeTab = parseInt(localStorage.getItem('rsc_activeTab')) || 0;
-        if (activeTab >= tabs.length) activeTab = 0;
-        codeEditor.value = tabs[activeTab].code;
-        renderTabs();
-        editorBody.style.display = 'flex';
-        editorTabs.style.display = 'flex';
-        wel.classList.remove('show');
-        return;
-      }
-    }
-  } catch(e) {}
-
-  // No saved tabs - show welcome screen
-  tabs = [];
-  activeTab = -1;
-  editorBody.style.display = 'none';
-  editorTabs.style.display = 'none';
-  wel.classList.add('show');
-
-  const hasSaved = localStorage.getItem('rsc_tabs_saved') === '1';
-  if (hasSaved) {
-    welText.textContent = 'Chào mừng đến với Compiler';
-    welActions.innerHTML = '<button class="welcome-btn" id="welcomeOpenProject"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Mở dự án đã lưu</button>';
-    document.getElementById('welcomeOpenProject').addEventListener('click', () => {
-      document.getElementById('btnOpenProject').click();
-    });
-  } else {
-    welText.textContent = 'Chào mừng đến với Compiler';
-    welActions.innerHTML = '<button class="welcome-btn" id="welcomeNewProject"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Thêm dự án mới</button>';
-    document.getElementById('welcomeNewProject').addEventListener('click', () => {
-      tabs = [{ id: 1, name: 'untitled.asm', code: '' }];
-      activeTab = 0;
-      codeEditor.value = '';
-      renderTabs();
-      editorBody.style.display = 'flex';
-      editorTabs.style.display = 'flex';
-      wel.classList.remove('show');
-      updateLineNumbers();
-      updateHighlight();
-      saveToStorage();
-    });
-  }
-}
 const editorHighlight = document.getElementById('editorHighlight');
 const API = location.origin || 'http://127.0.0.1:5000';
 
@@ -1715,67 +1490,7 @@ document.getElementById('btnSave').addEventListener('click', () => {
   statusMessage.textContent = 'Đã save code .asm';
 });
 
-// === Project buttons ===
-document.getElementById('btnSaveProject').addEventListener('click', () => {
-  if (tabs.length === 0) { statusMessage.textContent = 'Chưa có dự án nào'; return; }
-  const name = prompt('Tên dự án:', tabs[activeTab].name);
-  if (name && name.trim()) {
-    tabs[activeTab].name = name.trim();
-    renderTabs();
-    saveToStorage();
-    localStorage.setItem('rsc_tabs_saved', '1');
-    statusMessage.textContent = 'Đã lưu dự án: ' + name;
-  }
-});
 
-document.getElementById('btnOpenProject').addEventListener('click', () => {
-  const saved = localStorage.getItem('rsc_tabs');
-  if (!saved) { statusMessage.textContent = 'Không có dự án đã lưu'; return; }
-  const projects = JSON.parse(saved);
-  if (!projects || projects.length === 0) { statusMessage.textContent = 'Không có dự án đã lưu'; return; }
-
-  const wel = document.getElementById('welcomeScreen');
-  const welText = document.getElementById('welcomeText');
-  const welActions = document.getElementById('welcomeActions');
-  const editorBody = document.querySelector('.panel-body');
-  const editorTabs = document.getElementById('editorTabs');
-
-  editorBody.style.display = 'none';
-  editorTabs.style.display = 'none';
-  wel.classList.add('show');
-  welText.textContent = 'Chọn dự án để mở:';
-
-  welActions.innerHTML = projects.map((p, i) =>
-    '<button class="welcome-btn" data-idx="' + i + '">' +
-      '<svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> ' +
-      p.name +
-    '</button>'
-  ).join('') +
-    '<button class="welcome-btn" id="welcomeBack" style="color:var(--text2);border-color:var(--border);">Huy</button>';
-
-  welActions.querySelectorAll('[data-idx]').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const idx = parseInt(this.dataset.idx);
-      tabs = projects.map((t, i) => ({ id: i + 1, name: t.name, code: t.code }));
-      activeTab = idx < tabs.length ? idx : 0;
-      codeEditor.value = tabs[activeTab].code;
-      renderTabs();
-      editorBody.style.display = 'flex';
-      editorTabs.style.display = 'flex';
-      wel.classList.remove('show');
-      updateLineNumbers();
-      updateHighlight();
-      statusMessage.textContent = 'Đã mở dự án: ' + tabs[activeTab].name;
-    });
-  });
-  document.getElementById('welcomeBack').addEventListener('click', () => {
-    if (tabs.length > 0) {
-      editorBody.style.display = 'flex';
-      editorTabs.style.display = 'flex';
-      wel.classList.remove('show');
-    }
-  });
-});
 
 // === Settings ===
 const settingsOverlay = document.getElementById('settingsOverlay');
@@ -1802,11 +1517,7 @@ autoSaveToggle.addEventListener('change', function() {
 
 saveToStorage = function() {
   if (!autoSaveEnabled) return;
-  tabs[activeTab].code = getCode();
   localStorage.setItem(SAVE_KEY, getCode());
-  localStorage.setItem('rsc_tabs', JSON.stringify(tabs.map(t => ({ name: t.name, code: t.code }))));
-  localStorage.setItem('rsc_activeTab', activeTab);
-  localStorage.setItem('rsc_tabs_saved', '1');
   document.getElementById('saveIndicator').textContent = 'đã lưu';
 };
 
@@ -2269,14 +1980,9 @@ async function compileCode() {
 
 // === Init ===
 loadSettings();
-loadTabs();
-if (tabs.length > 0) {
-  updateLineNumbers();
-  updateHighlight();
-}
-
-// Update nav bar status
-document.getElementById('navStatus').textContent = statusMessage.textContent;
+loadFromStorage();
+updateLineNumbers();
+updateHighlight();
 </script>
 </body>
 </html>
