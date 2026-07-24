@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
-echo "Installing dependencies..."
+echo "=== Installing dependencies ==="
 pip install -r requirements.txt
-echo "Setup complete!"
+echo "=== Downloading RAC-Compiler ==="
+if [ ! -d "RAC-Compiler" ]; then
+    git clone --depth 1 https://github.com/luongvantam/RAC-Compiler.git RAC-Compiler
+fi
+echo "=== Setup complete ==="

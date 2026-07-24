@@ -10,6 +10,7 @@ from flask_cors import CORS
 import urllib.request
 import zipfile
 import shutil
+import sys
 
 # Detect environment
 IS_PRODUCTION = os.environ.get('RENDER', '') or os.environ.get('RAILWAY', '') or os.environ.get('RAILWAY_SERVICE_ID', '')
@@ -21,31 +22,33 @@ else:
 # Auto-download compiler if missing
 def ensure_compiler():
     if os.path.exists(os.path.join(COMPILER_DIR, 'lib', 'main.py')):
+        print(f"Compiler found at {COMPILER_DIR}")
         return True
     try:
-        print("Downloading RAC-Compiler...")
-        base = os.path.dirname(__file__)
-        zip_path = os.path.join(base, 'compiler.zip')
-        urllib.request.urlretrieve(
-            'https://github.com/luongvantam/RAC-Compiler/archive/refs/heads/main.zip',
-            zip_path
-        )
-        extract_dir = os.path.join(base, 'RAC-Compiler-main')
-        if os.path.exists(extract_dir):
-            shutil.rmtree(extract_dir)
-        with zipfile.ZipFile(zip_path, 'r') as zf:
-            zf.extractall(base)
+        print("=" * 50)
+        print("CLONING RAC-COMPILER via git...")
+        print("=" * 50)
+        sys.stdout.flush()
+        
         if os.path.exists(COMPILER_DIR):
             shutil.rmtree(COMPILER_DIR)
-        os.rename(
-            os.path.join(base, 'RAC-Compiler-main'),
-            COMPILER_DIR
+        
+        result = subprocess.run(
+            ['git', 'clone', '--depth', '1', 'https://github.com/luongvantam/RAC-Compiler.git', COMPILER_DIR],
+            capture_output=True, text=True, timeout=60
         )
-        os.remove(zip_path)
-        print("RAC-Compiler downloaded successfully!")
+        
+        if result.returncode != 0:
+            print(f"Git clone failed: {result.stderr}")
+            sys.stdout.flush()
+            return False
+            
+        print("RAC-Compiler cloned successfully!")
+        sys.stdout.flush()
         return True
     except Exception as e:
-        print(f"Failed to download compiler: {e}")
+        print(f"\nFAILED to clone compiler: {e}")
+        sys.stdout.flush()
         return False
 
 ensure_compiler()
