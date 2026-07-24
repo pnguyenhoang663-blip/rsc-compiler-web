@@ -7,30 +7,48 @@ import shlex
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
+import urllib.request
+import zipfile
+import shutil
+
 # Detect environment
 IS_PRODUCTION = os.environ.get('RENDER', '') or os.environ.get('RAILWAY', '') or os.environ.get('RAILWAY_SERVICE_ID', '')
 if IS_PRODUCTION:
     COMPILER_DIR = os.path.join(os.path.dirname(__file__), 'RAC-Compiler')
-    # Auto-download compiler if missing
-    if not os.path.exists(os.path.join(COMPILER_DIR, 'lib', 'main.py')):
-        import urllib.request
-        import zipfile
+else:
+    COMPILER_DIR = r"C:\Users\ADMIN\Downloads\RAC-Compiler-main\RAC-Compiler-main"
+
+# Auto-download compiler if missing
+def ensure_compiler():
+    if os.path.exists(os.path.join(COMPILER_DIR, 'lib', 'main.py')):
+        return True
+    try:
         print("Downloading RAC-Compiler...")
-        zip_path = os.path.join(os.path.dirname(__file__), 'compiler.zip')
+        base = os.path.dirname(__file__)
+        zip_path = os.path.join(base, 'compiler.zip')
         urllib.request.urlretrieve(
             'https://github.com/luongvantam/RAC-Compiler/archive/refs/heads/main.zip',
             zip_path
         )
+        extract_dir = os.path.join(base, 'RAC-Compiler-main')
+        if os.path.exists(extract_dir):
+            shutil.rmtree(extract_dir)
         with zipfile.ZipFile(zip_path, 'r') as zf:
-            zf.extractall(os.path.dirname(__file__))
+            zf.extractall(base)
+        if os.path.exists(COMPILER_DIR):
+            shutil.rmtree(COMPILER_DIR)
         os.rename(
-            os.path.join(os.path.dirname(__file__), 'RAC-Compiler-main'),
+            os.path.join(base, 'RAC-Compiler-main'),
             COMPILER_DIR
         )
         os.remove(zip_path)
-        print("RAC-Compiler downloaded!")
-else:
-    COMPILER_DIR = r"C:\Users\ADMIN\Downloads\RAC-Compiler-main\RAC-Compiler-main"
+        print("RAC-Compiler downloaded successfully!")
+        return True
+    except Exception as e:
+        print(f"Failed to download compiler: {e}")
+        return False
+
+ensure_compiler()
 
 app = Flask(__name__)
 CORS(app)
