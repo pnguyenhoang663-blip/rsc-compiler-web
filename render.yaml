@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: rsc-compiler
+    runtime: python
+    buildCommand: chmod +x setup.sh && ./setup.sh
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --timeout 120
+    envVars:
+      - key: RENDER
+        value: "true"
