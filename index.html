@@ -1359,33 +1359,6 @@ document.getElementById('btnSplit').addEventListener('click', () => {
   statusMessage.textContent = isSplit ? 'Đã bật tiện ích' : 'Đã tắt tiện ích';
 });
 
-// === Per-panel buttons (split view) ===
-document.querySelector('.split-clear').addEventListener('click', () => {
-  if (getCode() && !confirm('Xóa toàn bộ code ASM?')) return;
-  setCode('');
-  statusMessage.textContent = 'Đã xóa code';
-});
-
-document.querySelector('.split-copy').addEventListener('click', async () => {
-  if (!getCode()) { statusMessage.textContent = 'Không có gì để sao chép'; return; }
-  try {
-    await navigator.clipboard.writeText(getCode());
-    statusMessage.textContent = 'Đã sao chép code (' + getCode().length + ' ký tự)';
-  } catch { statusMessage.textContent = 'Lỗi sao chép'; }
-});
-
-document.querySelector('.split-clear-out').addEventListener('click', () => {
-  outputArea.textContent = '';
-  statusMessage.textContent = 'Đã xóa output';
-});
-
-document.querySelector('.split-copy-out').addEventListener('click', async () => {
-  if (!outputArea.textContent) { statusMessage.textContent = 'Không có gì để sao chép'; return; }
-  try {
-    await navigator.clipboard.writeText(outputArea.textContent);
-    statusMessage.textContent = 'Đã sao chép output (' + outputArea.textContent.length + ' ký tự)';
-  } catch { statusMessage.textContent = 'Lỗi sao chép'; }
-});
 function getActiveTab() {
   return document.querySelector('.tab.active').dataset.tab;
 }
